@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Calculate and Log Insulin</title>
+</head>
+{% if error %}
+{{ error }}
+<br>
+<br>
+{% endif %}
+<script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.js"></script>
+<script type="text/javascript">
+  $(window).load(function() {
+    $(document).ready(function() {
+      $('#calculate').click(function() {
+        var tot = parseFloat($('#id_curr_BSL').val()) - parseFloat($('#tarBSL').val());
+        var totalcorr = tot / parseFloat($('#isf').val());
+        $('#total').val(tot);
+        $('#totalinsulin').val(totalcorr);
+      });
+
+      $("#id_curr_BSL, #tarBSL").keypress(function(e) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          $("#errmsg").html("Digits Only").show().fadeOut("slow");
+          return false;
+        }
+      });
+    });
+
+    $(document).ready(function() {
+      $('#calculatemeal').click(function() {
+        var totalmeal = parseFloat($('#id_total_carb').val()) / parseFloat($('#carbratio').val());
+        $('#totalmeal').val(totalmeal);
+      });
+
+      $("#id_total_carb, #carbratio").keypress(function(e) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          $("#errmsg").html("Digits Only").show().fadeOut("slow");
+          return false;
+        }
+      });
+    });
+
+    $(document).ready(function() {
+      $('#calculateinslin').click(function() {
+        var totalmeal = parseFloat($('#totalinsulin').val()) + parseFloat($('#totalmeal').val());
+        $('#totalinslinmeal').val(totalmeal);
+      });
+
+      $("#totalinsulin, #totalmeal").keypress(function(e) {
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          $("#errmsg").html("Digits Only").show().fadeOut("slow");
+          return false;
+        }
+      });
+    });
+  });
+</script>
+
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+  <h2>{{ patient.first_name }} {{ patient.last_name }}'s Log</h2>
+
+  <form action="{% url 'logs' %}" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    {{ form.non_field_errors }}
+    <div class="row pt-1">
+      <div class="col-5">
+        Date and Time of meal: {{ form.meal_time }}
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-5">
+        Meal: {{ form.meal }}
+      </div>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-5">
+        <div class="controls">
+          <label>Blood Sugar Level Before Meal:</label>
+          {{ form.curr_BSL }}
+        </div>
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-5">
+        Total grams of Carbohydrates: {{ form.total_carb }}
+      </div>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-5">
+        <label>Top of Target Blood Sugar Level:</label>
+        <input type="text" value=130 class="form-control" id="tarBSL" readonly>
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-5">
+        <label>Carbohydrates Ratio:</label>
+        <input type="text" value="{{patient.patient.carb_ratio}}" id="carbratio" class="form-control" readonly>
+      </div>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-5">
+        <label>Blood Sugar Differences:</label>
+        <input type="text" class="form-control" id="total" readonly>
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-5">
+        <label>Units of Insulin to Cover Meal:</label>
+        <input type="text" class="form-control" id="totalmeal" readonly>
+      </div>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-5">
+        <label>Insulin Sensitivity Factor:</label>
+        <input type="text" value="{{patient.patient.insulin_sens}}" id='isf' class="form-control" readonly>
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-5">
+        <button type="button" class="form-control btn btn-primary" id="calculatemeal">Calculate</button>
+      </div>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-5">
+        <label>Units of Insulin to Correct:</label>
+        <input type="text" class="form-control" id="totalinsulin" readonly>
+      </div>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-5">
+        <button type="button" class="form-control btn btn-primary" id="calculate">Calculate</button>
+      </div>
+    </div>
+
+    <div class="row pt-5">
+      <div class="col-4">
+      </div>
+      <div class="col-4">
+        <label>Total Insulin needed:</label>
+        <input type="text" class="form-control" id="totalinslinmeal" readonly>
+      </div>
+      <div class="col-4">
+      </div>
+    </div>
+
+    <div class="row pt-2">
+      <div class="col-4">
+      </div>
+      <div class="col-4">
+        <button type="button" class="form-control btn btn-primary" id="calculateinslin">Calculate</button>
+      </div>
+      <div class="col-4">
+      </div>
+    </div>
+
+    <div class="row pt-2">
+      <div class="col-2">
+      </div>
+      <div class="col-8">
+        <label>Notes:</label>
+        {{ form.notes }}
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+    {{ form.errors }}
+    {{ form.non_field_errors }}
+    <input class="btn btn-primary" type="submit" value="Submit">
+  </form>
+  <br>
+  <br>
+</body>
+
+</html>
+
+{% endblock %}
