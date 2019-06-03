@@ -1,2 +1,1 @@
-insulinlog-project
-"# InsulinLog" 
+InsulinLog
