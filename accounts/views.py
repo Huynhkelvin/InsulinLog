@@ -5,10 +5,13 @@ from .forms import ExtendedUserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import auth
 from patient.models import Patient
+from django.contrib.auth.models import User
+from logs.models import DailyInsulin
 
 def home(request):
-    context = {'patient':request.user}
-    return render(request,'accounts/home.html', context)
+    # log = DailyInsulin.objects.filter(patient=request.user)
+    logs = DailyInsulin.objects.all()
+    return render(request,'accounts/home.html',{'logs':logs})
 
 def signup(request):
     if request.method == 'POST':
