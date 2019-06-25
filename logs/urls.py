@@ -3,4 +3,5 @@ from logs import views
 
 urlpatterns = [
     path('', views.insulinform, name='logs'),
+    path('display/', views.display, name='display'),
 ]

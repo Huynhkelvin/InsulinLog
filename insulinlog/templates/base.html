@@ -32,7 +32,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}">
-          <img src="{% static 'icon.png'%}" class="d-inline-block alignn-top" height="25" width="25" />
+          <img src="{% static 'diabetescircle.png'%}" class="d-inline-block alignn-top" height="25" width="25" />
           Insulin Logs
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,7 @@
           <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
             <a class="nav-item nav-link" href="{% url 'logs' %}">Log Insulin</a>
+            <a class="nav-item nav-link" href="{% url 'display' %}">Journal</a>
             <a class="nav-item nav-link" href="javascript:{document.getElementById('logout').submit()}" , onclick="">Logout</a>
             <form id="logout" action="{% url 'logout' %}" method="post">
               {% csrf_token %}

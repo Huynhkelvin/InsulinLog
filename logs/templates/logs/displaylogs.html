@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Insulin Journal</title>
+</head>
+
+<body>
+
+  <h1>Insulin Journal</h1>
+  <div class="card-columns">
+
+    {% for log in logs.all %}
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{log.meal_time}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{log.meal}}</h6>
+        <p class="card-text">Pre-BSL: {{log.curr_BSL}}<br>Total Insulin: {{log.total_insulin}} Units</p>
+        <a href="#" class="card-link">Details</a>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+
+</body>
+
+</html>
+
+{% endblock %}

@@ -2,12 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 
 MEAL_CHOICE = (
-    ('no_meal','No Meal'),
-    ('breakfast','Breakfast'),
-    ('lunch','Lunch'),
-    ('dinner','Dinner'),
-    ('bedtime','Bedtime'),
-    ('snack','Snack'),
+    ('No meal','No Meal'),
+    ('Breakfast','Breakfast'),
+    ('Lunch','Lunch'),
+    ('Dinner','Dinner'),
+    ('Bedtime','Bedtime'),
+    ('Snack','Snack'),
 )
 
 class DailyInsulin(models.Model):

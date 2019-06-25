@@ -3,7 +3,13 @@ from .forms import DailyInsulinForm
 from patient.models import Patient
 from django.contrib.auth.models import User
 from accounts.forms import ExtendedUserCreationForm
+from logs.models import DailyInsulin
 
+
+def display(request):
+    # log = DailyInsulin.objects.filter(patient=request.user)
+    logs = DailyInsulin.objects.all()
+    return render(request,'logs/displaylogs.html',{'logs':logs})
 
 def insulinform(request):
     if request.method == 'POST':
