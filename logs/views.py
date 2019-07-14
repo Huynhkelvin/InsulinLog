@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from accounts.forms import ExtendedUserCreationForm
 from logs.models import DailyInsulin
 
+def detail(request):
+    # log = DailyInsulin.objects.filter(patient=request.user)
+    logs = DailyInsulin.objects.all()
+    return render(request,'logs/detail.html',{'logs':logs})
 
 def display(request):
     # log = DailyInsulin.objects.filter(patient=request.user)
