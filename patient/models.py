@@ -8,7 +8,6 @@ class Patient(models.Model):
     insulin_sens = models.IntegerField(null=True, blank=True)
     carb_ratio = models.IntegerField(null=True, blank=True)
     basal = models.IntegerField(null=True, blank=True)
-    doctor = models.BooleanField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username

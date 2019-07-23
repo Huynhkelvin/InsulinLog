@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Calculate and Log Insulin</title>
+</head>
+{% if error %}
+{{ error }}
+<br>
+<br>
+{% endif %}
+<main role="main" class="container">
+  <form method="GET" action=".">
+    <div class="form-row">
+      <div class="form-group col-12">
+        <div class="input-group">
+          <input class="form-control py-2 border-right-0 border" type="search" name="food_contains" placeholder="If contains">
+          <span class="input-group-append">
+            <div class="input-group-text bg-transparent">
+              <i class="fa fa-search"></i>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-12">
+        <div class="input-group">
+          <input class="form-control py-2 border-right-0 border" type="search" name="food_exact" placeholder="Exact">
+          <span class="input-group-append">
+            <div class="input-group-text bg-transparent">
+              <i class="fa fa-search"></i>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Check Carbs</button>
+  </form>
+  <div class="row">
+    <ul>
+      {% for food in queryset %}
+      <li>
+        {{ food.name}}
+        <span>Food type: {{ food.foodtype }}</span>
+        <span>Food serving: {{ food.serving }}</span>
+        <span>Amount of carbs: {{ food.carbs }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+</main>
+
+</html>
+{% endblock %}

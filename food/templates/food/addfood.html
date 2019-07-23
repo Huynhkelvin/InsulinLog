@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Add Food Item</title>
+</head>
+{% if error %}
+{{ error }}
+<br>
+<br>
+{% endif %}
+
+<body>
+
+  <form action="{% url 'addfooditem' %}" method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    {{ form.non_field_errors }}
+    <div class="row pt-1">
+      <div class="col-5">
+        Food Item: {{ form.name }}
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-5">
+        Servings: {{ form.serving }}
+      </div>
+    </div>
+
+    <div class="row pt-1">
+      <div class="col-5">
+        Grams of carbohydrates: {{ form.carbs }}
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-5">
+        Type of food: {{ form.foodtype }}
+      </div>
+    </div>
+    <br>
+    {{ form.errors }}
+    {{ form.non_field_errors }}
+    <input class="btn btn-primary" type="submit" value="Submit">
+  </form>
+</body>
+
+
+</html>
+{% endblock %}

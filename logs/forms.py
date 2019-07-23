@@ -20,15 +20,3 @@ class DailyInsulinForm(forms.ModelForm):
             'total_carb' : forms.NumberInput(attrs={'class':'form-control',}),
             'notes' : forms.Textarea(attrs={'class':'form-control',}),
         }
-
-
-    # meal_time = models.DateTimeField()
-    # meal = models.CharField(max_length=10, choices=MEAL_CHOICE)
-    # curr_BSL = models.IntegerField()
-    # diff_BSL = models.IntegerField()
-    # correction_insulin = models.IntegerField()
-    # total_carb = models.IntegerField()
-    # carb_ratio = models.IntegerField()
-    # insulin_dose = models.IntegerField()
-    # notes = models.TextField()
-    # patient = models.ForeignKey(User, on_delete=models.CASCADE)

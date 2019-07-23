@@ -32,6 +32,7 @@ def insulinform(request):
             print(logmodel)
 
         else:
+            print(request.method)
             print('invalid')
             print(form.errors)
 
