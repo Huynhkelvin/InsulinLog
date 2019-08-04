@@ -8,6 +8,7 @@ from patient.models import Patient
 from django.contrib.auth.models import User
 from logs.models import DailyInsulin
 
+
 def home(request):
     # log = DailyInsulin.objects.filter(patient=request.user)
     logs = DailyInsulin.objects.all()

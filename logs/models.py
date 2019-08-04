@@ -11,7 +11,7 @@ MEAL_CHOICE = (
 )
 
 class DailyInsulin(models.Model):
-    meal_time = models.DateField(blank=True)
+    meal_time = models.DateTimeField(blank=True)
     meal = models.CharField(max_length=10, choices=MEAL_CHOICE, blank=True)
     curr_BSL = models.IntegerField(blank=True)
     diff_BSL = models.IntegerField(blank=True)

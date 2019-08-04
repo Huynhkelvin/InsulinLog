@@ -35,8 +35,6 @@ INSTALLED_APPS = [
     'food.apps.FoodConfig',
     'patient.apps.PatientConfig',
     'logs.apps.LogsConfig',
-    'dal',
-    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

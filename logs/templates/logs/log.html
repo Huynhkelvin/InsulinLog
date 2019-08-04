@@ -66,125 +66,141 @@
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-  <h2>{{ patient.first_name }} {{ patient.last_name }}'s Log</h2>
+  <h2> Hello {{ patient.first_name }}! Welcome to your log and insulin calcuator</h2>
+  <hr>
 
-  <form action="{% url 'logs' %}" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    {{ form.errors }}
-    {{ form.non_field_errors }}
-    <div class="row pt-1">
-      <div class="col-5">
-        Date and Time of meal: {{ form.meal_time }}
-      </div>
-      <div class="col-2">
-      </div>
-      <div class="col-5">
-        Meal: {{ form.meal }}
-      </div>
-    </div>
+  <div>
+    <div class="container-fluid">
+      <form action="{% url 'logs' %}" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {{ form.errors }}
+        {{ form.non_field_errors }}
 
-    <div class="row pt-3">
-      <div class="col-5">
-        <div class="controls">
-          <label>Blood Sugar Level Before Meal:</label>
-          {{ form.curr_BSL }}
+        <div class="form-row">
+          <div class="col" id="message">
+            <h5 class="h4">Covering High Blood Sugar</h5>
+            <br>
+            <div class="form-group">
+              <strong>Date and Time of Meal:</strong>
+              {{ form.meal_time }}
+            </div>
+            <div class="form-group">
+              <strong>Blood Sugar Level Before Meal:</strong>
+              <div class="controls">
+                {{ form.curr_BSL }}
+              </div>
+            </div>
+            <div class="form-group">
+              <strong>Top of Target Blood Sugar Level:</strong>
+              <input type="text" value=130 class="form-control" id="tarBSL" readonly>
+            </div>
+            <div class="form-group">
+              <strong>Blood Sugar Differences:</strong>
+              <input type="text" name="blooddiff" class="form-control" id="total" readonly>
+            </div>
+            <div class="form-group">
+              <strong>Insulin Sensitivity Factor:</strong>
+              <input type="text" value="{{patient.patient.insulin_sens}}" id='isf' class="form-control" readonly>
+            </div>
+            <div class="form-group">
+              <strong>Units of Insulin to Correct:</strong>
+              <input type="text" class="form-control" id="totalinsulin" readonly>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col">
+                  <button type="button" class="form-control btn btn-primary" id="calculate">Calculate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col" id="message">
+            <h5 class="h4">Covering Carbohydrates</h5>
+            <br>
+            <div class="form-group">
+              <strong>Meal:</strong>
+              {{ form.meal }}
+            </div>
+            <div class="form-group">
+              <strong>Total grams of Carbohydrates:</strong>
+              {{ form.total_carb }}
+            </div>
+            <div class="form-group">
+              <strong>Carbohydrates Ratio:</strong>
+              <input type="text" value="{{patient.patient.carb_ratio}}" id="carbratio" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+              <strong>Units of Insulin to Cover Meal:</strong>
+              <input type="text" class="form-control" id="totalmeal" readonly>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col">
+                  <button type="button" class="form-control btn btn-primary" id="calculatemeal">Calculate</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-2">
-      </div>
-      <div class="col-5">
-        Total grams of Carbohydrates: {{ form.total_carb }}
-      </div>
-    </div>
+        <div class="col-lg-12">
+          <div class="row justify-content-md-center">
+              <div class="col-2">
+              </div>
+              <div class="col-8">
+                <label>Notes:</label>
+                {{ form.notes }}
+                <br>
+                <input class="form-control btn btn-primary" type="button" value="Submit">
+                <br><br>
+              </div>
+              <div class="col-2">
+              </div>
+            {{ form.errors }}
+            {{ form.non_field_errors }}
+          </div>
+        </div>
+      </form>
 
-    <div class="row pt-3">
-      <div class="col-5">
-        <label>Top of Target Blood Sugar Level:</label>
-        <input type="text" value=130 class="form-control" id="tarBSL" readonly>
-      </div>
-      <div class="col-2">
-      </div>
-      <div class="col-5">
-        <label>Carbohydrates Ratio:</label>
-        <input type="text" value="{{patient.patient.carb_ratio}}" id="carbratio" class="form-control" readonly>
-      </div>
-    </div>
 
-    <div class="row pt-3">
-      <div class="col-5">
-        <label>Blood Sugar Differences:</label>
-        <input type="text" name="blooddiff" class="form-control" id="total" readonly>
-      </div>
-      <div class="col-2">
-      </div>
-      <div class="col-5">
-        <label>Units of Insulin to Cover Meal:</label>
-        <input type="text" class="form-control" id="totalmeal" readonly>
-      </div>
-    </div>
+      <form method="GET" action=".">
+        <div class="col-md-4 offset-md-.5">
+          <div class="form-row">
+            <div class="form-group col-12">
+              <div class="input-group">
+                <input class="form-control py-2" type="search" name="food_contains" placeholder="If contains">
+              </div>
+            </div>
+          </div>
 
-    <div class="row pt-3">
-      <div class="col-5">
-        <label>Insulin Sensitivity Factor:</label>
-        <input type="text" value="{{patient.patient.insulin_sens}}" id='isf' class="form-control" readonly>
-      </div>
-      <div class="col-2">
-      </div>
-      <div class="col-5">
-        <button type="button" class="form-control btn btn-primary" id="calculatemeal">Calculate</button>
-      </div>
-    </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <div class="input-group">
+                <input class="form-control" type="search" name="food_exact" placeholder="Exact">
+              </div>
+            </div>
+          </div>
 
-    <div class="row pt-3">
-      <div class="col-5">
-        <label>Units of Insulin to Correct:</label>
-        <input type="text" class="form-control" id="totalinsulin" readonly>
-      </div>
-    </div>
+          <button type="submit" class="btn btn-primary">Check Carbs</button>
 
-    <div class="row pt-3">
-      <div class="col-5">
-        <button type="button" class="form-control btn btn-primary" id="calculate">Calculate</button>
-      </div>
-    </div>
 
-    <div class="row pt-5">
-      <div class="col-4">
-      </div>
-      <div class="col-4">
-        <label>Total Insulin needed:</label>
-        <input type="text" class="form-control" id="totalinslinmeal" readonly>
-      </div>
-      <div class="col-4">
-      </div>
-    </div>
+          <div class="row">
+            <ul>
+              {% for food in queryset %}
+              <li>
+                {{ food.name}}<br>
+                Food type: {{ food.foodtype }}<br>
+                Amount of carbs: {{ food.carbs }}
+                <br>
+                <br>
+              </li>
+              {% endfor %}
+            </ul>
 
-    <div class="row pt-2">
-      <div class="col-4">
-      </div>
-      <div class="col-4">
-        <button type="button" class="form-control btn btn-primary" id="calculateinslin">Calculate</button>
-      </div>
-      <div class="col-4">
-      </div>
+          </div>
+        </div>
+      </form>
     </div>
-
-    <div class="row pt-2">
-      <div class="col-2">
-      </div>
-      <div class="col-8">
-        <label>Notes:</label>
-        {{ form.notes }}
-      </div>
-      <div class="col-2">
-      </div>
-    </div>
-    {{ form.errors }}
-    {{ form.non_field_errors }}
-    <input class="btn btn-primary" type="submit" value="Submit">
-  </form>
-  <br>
-  <br>
+  </div>
 </body>
 
 </html>

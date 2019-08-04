@@ -4,6 +4,9 @@ from patient.models import Patient
 from django.contrib.auth.models import User
 from accounts.forms import ExtendedUserCreationForm
 from logs.models import DailyInsulin
+from food.models import Foodinfo
+from food.forms import FoodForm, FoodInputForm
+
 
 def detail(request):
     # log = DailyInsulin.objects.filter(patient=request.user)
@@ -35,8 +38,14 @@ def insulinform(request):
             print(request.method)
             print('invalid')
             print(form.errors)
-
     form = DailyInsulinForm
     context = {'patient':request.user}
     context['form'] = form
+
+    qs = Foodinfo.objects.all()
+    food_contains_query = request.GET.get('food_contains')
+    food_exact_query = request.GET.get('food_exact')
+    if food_contains_query != '' and food_exact_query is not None:
+        qs = qs.filter(name__icontains=food_contains_query)
+        context['queryset'] = qs
     return render(request,'logs/log.html', context)

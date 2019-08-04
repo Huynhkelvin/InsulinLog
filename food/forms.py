@@ -7,12 +7,12 @@ class FoodForm(forms.ModelForm):
         fields = ('serving', 'carbs', 'foodtype', 'name',)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].queryset = Foodname.objects.none()
+        self.fields['name'].queryset = Foodinfo.objects.none()
 
         if 'foodtype' in self.data:
             try:
                 foodtype_id = int(self.data.get('foodtype'))
-                self.fields['name'].queryset = Foodname.objects.filter(foodtype_id=foodtype_id).order_by('name')
+                self.fields['name'].queryset = Foodinfo.objects.filter(foodtype_id=foodtype_id).order_by('name')
             except (ValueError, TypeError):
                 pass
         elif self.instance.pk:

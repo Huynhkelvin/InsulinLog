@@ -28,7 +28,7 @@
           <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
             {% if request.user.is_superuser %}
-            <a class="nav-item nav-link" href="{% url 'logs' %}">Patient Data</a>
+            <a class="nav-item nav-link" href="{% url 'display' %}">Patient Data</a>
             {% else %}
             <a class="nav-item nav-link" href="{% url 'logs' %}">Log Insulin</a>
             <a class="nav-item nav-link" href="{% url 'display' %}">Journal</a>
