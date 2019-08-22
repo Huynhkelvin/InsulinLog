@@ -13,6 +13,40 @@
 <body>
 
   <h1>Insulin Journal</h1>
+  <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Meal</th>
+                  <th>Current BSL</th>
+                  <th>Difference BSL</th>
+                  <th>Total Carbs</th>
+                  <th>Insulin Dose</th>
+              </tr>
+          </thead>
+  {% for log in logs.all %}
+  <tbody>
+              <tr>
+                  <td>{{log.meal_time}}</td>
+                  <td>System Architect</td>
+                  <td>{{log.meal}}</td>
+                  <td>{{log.curr_BSL}}</td>
+                  <td>{{log.diff_BSL}}</td>
+                  <td>{{log.total_carb}}</td>
+                  <td>{{log.total_insulin}}</td>
+              </tr>
+              <tr>
+                  <td>Garrett Winters</td>
+                  <td>Accountant</td>
+                  <td>Tokyo</td>
+                  <td>63</td>
+                  <td>2011/07/25</td>
+                  <td>$170,750</td>
+              </tr>
+          </tbody>
+  {% endfor %}
+      </table>
   <div class="card-columns">
 
     {% for log in logs.all %}

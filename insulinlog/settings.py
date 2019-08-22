@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'insulinlog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'insulinlog',
+        'NAME': 'insulinlogdbs',
         'USER' : 'postgres',
         'PASSWORD' : 'postgres',
         'HOST' : 'localhost',
